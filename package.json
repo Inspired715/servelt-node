@@ -1,0 +1,40 @@
+{
+  "name": "servlet",
+  "version": "0.0.7",
+  "description": "Single thread, multiple host node application server",
+  "homepage": "http://schwen.de",
+  "keywords": [
+    "server", 
+    "watch", 
+    "multiple", 
+    "reload"
+  ],
+  "author": {
+    "name": "Daniel Schwen",
+    "email": "node@schwen.de"
+  },
+  "contributors": [
+    {
+      "name": "Daniel Schwen",
+      "email": "node@schwen.de"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dschwen/node-servlet.git"
+  },
+  "dependencies": {
+    "bouncy": "3.x",
+    "fs.notify": "0.0.x"
+  },
+  "devDependencies": {
+  },
+  "main": "lib/servlet.js",
+  "bin" : {
+    "servlet": "bin/servlet.js"
+  },
+  "engines": {
+    "node": ">= 0.6.0"
+  },
+  "readme": "# servlet\n\nrun multiple servers in one node.js process, restarting individual servers when their code files change on disk\n\nservlet uses [fs.watch] to monitor server module source files and its own configuration file. Modules are reloaded to realize changes immediately.\n\n## Running servlet\n\nAs root:\n\n```> servlet config.conf 80 wwwdata:wwwdata```\n\nAs an unpriviliged user:\n\n```> servlet config.conf 8080```\n\n## Example config\n\n```\n[\n  { \"host\": \"project1.example.com\", \"file\": \"./project1/index.js\" },\n  { \"host\": \"project2.example.com\", \"file\": \"../funstuff/server.js\" }\n]\n```\n\n## Example servlet\n\n```\nvar app = require('http').createServer(function(req,res){res.end(req.url)})\nexports.start = function( options ) {\n  // start listening on the port assigned to the servlet\n  app.listen( options.port );\n}\nexports.stop = function() {\n  // clean up\n  app.close();\n}\n```\n\n## Launching and respawning with upstart\n\nOn Ubuntu systems upstart can be used to launch servlet at boot time and keep it running. Check out ```node-servlet.conf``` for an upstart example config file."
+}
